@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types" // Ensure your custom types are recognized
+    ],
+    "paths": {
+      "*": ["node_modules/*", "src/*"] // Adjust according to your project structure
+    }
+  },
+  "ts-node": {
+    "files": true
+  }
+}
