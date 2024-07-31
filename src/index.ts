@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express from "express"
 import cors from "cors";
 
@@ -12,7 +13,7 @@ app.use(cors());
 
 // defining the port
 // const port = process.env.PORT || "5500";
-const port = process.env.PORT || "5500"
+const port = process.env.PORT
 
 
 // using the listen callback func to log out port definition
