@@ -1,0 +1,18 @@
+name: Setup Node
+
+description: Setup a Node.js environment.
+
+inputs:
+  node-version:
+    description: Specifies the version spec of the Node version to use.
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Use Node.js ${{ inputs.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: "npm"
+        cache-dependency-path: ${{ env.working-directory }}

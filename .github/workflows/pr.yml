@@ -1,0 +1,110 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [main] # Trigger the workflow on every commit to the main branch.
+  pull_request:
+    branches: [main] # Trigger the workflow on pull requests targeting the main branch
+
+env:
+  node-version: 21.x
+  working-directory: ./
+
+jobs:
+  format:
+    name: Run linting & formatting
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+      cancel-in-progress: true
+
+    defaults:
+      run:
+        working-directory: ${{ env.working-directory }}
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout the Git repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Use Node.js ${{ env.node-version }}
+        uses: ./.github/actions/setup-node
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Install Node modules
+        uses: ./.github/actions/install-node-modules
+
+      - name: Format code
+        uses: ./.github/actions/format-code
+
+
+  test:
+    name: Run type checking & tests
+    needs: format
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: "${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }} - ${{ matrix.node-version }}"
+      cancel-in-progress: true
+
+    strategy:
+      matrix:
+        node-version: [21x]
+
+    steps:
+      - name: Checkout the Git repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ env.node-version }}
+        uses: ./.github/actions/setup-node
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Install Node modules
+        uses: ./.github/actions/install-node-modules
+
+      - name: Run tests (Jest) NodeJs Backend(expressjs)
+        uses: ./.github/actions/run-tests
+
+  build:
+    name: Builds the app
+    needs: test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [21.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2 # Step 1: Check out the source code from the repository.
+
+      - name: Use Node.js ${{ env.node-version }}
+        uses: ./.github/actions/setup-node
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Install Node.js dependencies
+        uses: ./.github/actions/install-node-modules # Step 3: Perform a clean install of Node.js dependencies.
+
+      - name: Build App
+        uses: ./.github/actions/build-app
+
+  dependabot:
+    name: 'Dependabot'
+    needs: [format,test ,build] # After the E2E and build jobs, if one of them fails, it won't merge the PR.
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'}} # Detect that the PR author is dependabot
+    steps:
+      - name: Enable auto-merge for Dependabot PRs
+        run: gh pr merge --auto --merge "$PR_URL" # Use Github CLI to merge automatically the PR
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
