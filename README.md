@@ -19,16 +19,7 @@ Ensure you have Node.js and npm installed on your machine. You can download and 
    cd <repository-directory>
    ```
 
-2. **Install backend dependencies**
-
-   Navigate to the `backend` folder and run to install the ESLint version compatible with TypeScript:
-
-   ```sh
-   cd backend
-   npm install eslint@8.56.0
-   ```
-
-3. **Install peer dependencies**
+2. **Install peer dependencies**
 
    Run the following command to install the peer dependencies:
 
@@ -36,7 +27,7 @@ Ensure you have Node.js and npm installed on your machine. You can download and 
    npm install --legacy-peer-deps
    ```
 
-4. **Install `nodemon` globally**
+3. **Install `nodemon` globally**
 
    Run the following command to install `nodemon` globally:
 
@@ -44,7 +35,7 @@ Ensure you have Node.js and npm installed on your machine. You can download and 
    npm install -g nodemon
    ```
 
-5. **Install TypeScript and `ts-node`**
+4. **Install TypeScript and `ts-node`**
 
    Run the following command to install TypeScript and `ts-node` as dev dependencies:
 
@@ -77,4 +68,3 @@ Ensure you have Node.js and npm installed on your machine. You can download and 
 ### Contributing
 
 If you wish to contribute to this project, please fork the repository and submit a pull request. I welcome all contributions!
-

@@ -3,7 +3,7 @@ name: Build The Application
 description: Builds the entire application
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Run build scripts
       shell: bash

@@ -1,22 +1,18 @@
 import 'dotenv/config'
-import express from "express"
-import cors from "cors";
-
+import express from 'express'
+import cors from 'cors'
 
 // defining the express app
-const app = express();
-
+const app = express()
 
 // using cors in app
-app.use(cors());
-
+app.use(cors())
 
 // defining the port
 // const port = process.env.PORT || "5500";
 const port = process.env.PORT
 
-
 // using the listen callback func to log out port definition
-app.listen(port , () => {
-    console.log(`app is running at ${port}`);
+app.listen(port, () => {
+  console.log(`app is running at ${port}`)
 })

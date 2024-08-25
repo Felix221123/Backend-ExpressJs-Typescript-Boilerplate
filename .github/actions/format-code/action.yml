@@ -3,7 +3,7 @@ name: Format code
 description: Format code with formatters and linters.
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Run ESLint
       shell: bash

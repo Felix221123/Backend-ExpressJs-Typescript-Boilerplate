@@ -44,14 +44,13 @@ jobs:
       - name: Format code
         uses: ./.github/actions/format-code
 
-
   test:
     name: Run type checking & tests
     needs: format
     runs-on: ubuntu-latest
 
     concurrency:
-      group: "${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }} - ${{ matrix.node-version }}"
+      group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }} - ${{ matrix.node-version }}'
       cancel-in-progress: true
 
     strategy:

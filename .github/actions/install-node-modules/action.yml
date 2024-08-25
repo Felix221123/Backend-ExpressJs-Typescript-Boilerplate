@@ -3,7 +3,7 @@ name: Install Node modules
 description: Validate a project when using Zero-Installs.
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Install Node.js dependencies(using legacy peers)
       shell: bash
